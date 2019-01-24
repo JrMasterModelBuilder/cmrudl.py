@@ -86,14 +86,15 @@ class Main(object):
 		return '%d:%02d:%02d' % (h, m, s)
 
 	def bytes_human(self, size):
+		based = float(size)
 		base = 1024
 		names = ['B', 'K', 'M', 'G', 'T']
 		il = len(names) - 1
 		i = 0
-		while size > base and i < il:
-			size /= base
+		while based > base and i < il:
+			based /= base
 			i += 1
-		return '%.2f%s' % (size, names[i])
+		return '%.2f%s' % (based, names[i])
 
 	def percent_human(self, part, total):
 		f = (part / float(total)) if total else 0

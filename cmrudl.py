@@ -375,7 +375,7 @@ class Main(object):
 		self.log('Verifying size: %s' % (storage_size), True)
 		try:
 			self.download_verify_size(file_name_temp_path, storage_size)
-		except ex:
+		except Exception as ex:
 			os.remove(file_name_temp_path)
 			raise ex
 

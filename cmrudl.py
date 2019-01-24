@@ -96,7 +96,8 @@ class Main(object):
 		return '%.2f%s' % (size, names[i])
 
 	def percent_human(self, part, total):
-		return '%.2f%%' % ((part / total) * 100)
+		f = (part / float(total)) if total else 0
+		return '%.2f%%' % (f * 100)
 
 	def json_decode(self, s):
 		return json.loads(s)
@@ -398,8 +399,8 @@ class Main(object):
 		sub_total = total - offset
 		sub_current = current - offset
 		sub_remain = sub_total - sub_current
-		bytes_sec = sub_current / delta if delta else 0
-		delta_remain = sub_remain / bytes_sec if bytes_sec else 0
+		bytes_sec = sub_current / float(delta) if delta else 0
+		delta_remain = sub_remain / float(bytes_sec) if bytes_sec else 0
 
 		timestr = self.seconds_human(math.floor(delta))
 		percent = self.percent_human(current, total)

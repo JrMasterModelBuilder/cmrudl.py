@@ -9,7 +9,7 @@ cmrudl.py - Cloud Mail.RU download script
 usage: cmrudl.py [-h] [-v] [-V] [-D] [-B BUFFER] [-t TIMEOUT] [-M] [-d DIR]
                  url [file]
 
-cmrudl.py 1.0.1
+cmrudl.py 1.0.2
 Copyright (c) 2019 JrMasterModelBuilder MPL-2.0
 
 positional arguments:

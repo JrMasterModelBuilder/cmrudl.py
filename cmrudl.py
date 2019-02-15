@@ -322,7 +322,7 @@ class Main(object):
 			urllib_quote(token)
 		)
 
-	def create_out_dir(self, storage):
+	def create_out_dir(self):
 		opt_dir = self.options.dir
 		return opt_dir if opt_dir else ''
 
@@ -333,7 +333,7 @@ class Main(object):
 		opt_file = self.options.file
 		if opt_file:
 			return opt_file
-		return storage['name']
+		return storage['name'] if storage else None
 
 	def download_verify_size(self, file_path, file_size):
 		size = self.stat(file_path).st_size
@@ -343,21 +343,33 @@ class Main(object):
 	def download_set_mtime(self, file_path, file_mtime):
 		os.utime(file_path, (file_mtime, file_mtime))
 
-	def download(self, storage, token):
-		url = self.create_download_url(storage, token)
-		self.log('Download URL: %s' % (url), True)
+	def assert_not_exists(self, file_path):
+		if self.stat(file_path):
+			raise Exception('Already exists: %s' % (file_path))
 
-		out_dir = self.create_out_dir(storage)
+	def download(self):
+		out_dir = self.create_out_dir()
 		if out_dir:
 			self.log('Output dir: %s' % (out_dir))
 
-		file_name = self.create_file_name(storage)
-		self.log('Output file: %s' % (file_name))
+		file_name = self.create_file_name(None)
+		if not file_name is None:
+			self.log('Output file: %s' % (file_name))
+			self.assert_not_exists(os.path.join(out_dir, file_name))
+
+		storage = self.fetch_storage(self.options.url[0])
+
+		if file_name is None:
+			file_name = self.create_file_name(storage)
+			self.log('Output file: %s' % (file_name))
+
+		token = self.fetch_token()
+
+		url = self.create_download_url(storage, token)
+		self.log('Download URL: %s' % (url), True)
 
 		file_name_path = os.path.join(out_dir, file_name)
-		file_name_path_stat = self.stat(file_name_path)
-		if file_name_path_stat:
-			raise Exception('Already exists: %s' % (file_name_path))
+		self.assert_not_exists(file_name_path)
 
 		file_name_temp = self.create_file_name_temp(storage)
 		self.log('Temporary file: %s' % (file_name_temp), True)
@@ -424,9 +436,7 @@ class Main(object):
 		]))
 
 	def run(self):
-		storage = self.fetch_storage(self.options.url[0])
-		token = self.fetch_token()
-		self.download(storage, token)
+		self.download()
 
 	def main(self):
 		def exception(ex):

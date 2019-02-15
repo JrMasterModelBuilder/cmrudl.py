@@ -27,7 +27,7 @@ except ImportError:
 	from urllib import quote as urllib_quote
 
 __prog__ = 'cmrudl.py'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 __copyright__ = 'Copyright (c) 2019 JrMasterModelBuilder'
 __license__ = 'MPL-2.0'
 

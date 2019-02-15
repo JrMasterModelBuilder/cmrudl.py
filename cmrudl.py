@@ -24,7 +24,7 @@ except ImportError:
 try:
 	from urllib.parse import quote as urllib_quote
 except ImportError:
-	from urllib import quote as urllib_quote
+	from urllib2 import quote as urllib_quote
 
 __prog__ = 'cmrudl.py'
 __version__ = '1.0.4'

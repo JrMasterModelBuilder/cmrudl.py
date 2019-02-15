@@ -6,7 +6,6 @@ import errno
 import time
 import math
 import collections
-import hashlib
 import re
 import json
 import argparse

@@ -379,7 +379,7 @@ class Main(object):
 		if self.options.metadata:
 			file_size = storage['size']
 			meta = {"file_name": file_name, "file_size": file_size, "download": url}
-			print(meta)
+			print(json.dumps(meta))
 			exit(0)
 
 		# Download with progress info, adding new line to clear after.

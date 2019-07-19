@@ -375,6 +375,13 @@ class Main(object):
 
 		file_name_temp_path = os.path.join(out_dir, file_name_temp)
 
+		# only if metadata flag
+		if self.options.metadata:
+			file_size = storage['size']
+			meta = {"file_name": file_name, "file_size": file_size, "download": url}
+			print(json.dumps(meta))
+			exit(0)
+
 		# Download with progress info, adding new line to clear after.
 		try:
 			self.request_download(url, file_name_temp_path, self.download_progress, True)
@@ -507,6 +514,12 @@ def main():
 		'--dir',
 		default=None,
 		help='Output directory'
+	)
+	parser.add_argument(
+		'-s',
+		'--metadata',
+		action='store_true',
+		help='show metadata only'
 	)
 	parser.add_argument(
 		'url',
